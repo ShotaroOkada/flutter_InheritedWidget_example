@@ -31,13 +31,14 @@ class TopPage extends StatelessWidget {
 class _MyInheritedWidget extends InheritedWidget {
   _MyInheritedWidget({
     Key key,
-    @required Widget child,
-    @required this.data,
+    @required Widget child, // widgetのchild以下を要求
+    @required this.data, // 今回要求するdataはHOmePageState
   }) : super(key: key, child: child);
 
   final HomePageState data;
 
   @override
+  // inheritFromWidgetOfExactTypeを呼び出すWidgetにリビルドをすることを通知するかをboolで返す
   bool updateShouldNotify(_MyInheritedWidget oldWidget) {
     return true;
   }
@@ -75,9 +76,10 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // _MyInheritedWidgetのインスタンスを作り直してreturn
     return _MyInheritedWidget(
       data: this,
-      child: widget.child,
+      child: widget.child, // HomepageWidgetが保持しているWidgetツリーを使いまわす
     );
   }
 }
@@ -86,11 +88,11 @@ class WidgetA extends StatelessWidget {
   @override 
   Widget build(BuildContext context) {
     final HomePageState state = HomePage.of(context);
-
+    print(state.counter);
     return Center(
       child: Text(
         '${state.counter}',
-        style: Theme.of(context).textTheme.display1,
+         style: Theme.of(context).textTheme.display1,
       ),
     );
   }
